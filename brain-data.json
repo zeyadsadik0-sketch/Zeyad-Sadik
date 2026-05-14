@@ -10,8 +10,8 @@
       "color": "#d4543a",
       "description": "Goals and projects related to designing, building, and shipping games.",
       "entries": [
-        { "title": "Learn Unity 2D basics", "note": "Finish a small platformer prototype.", "date": "2026-01-04" },
-        { "title": "Pixel art practice", "note": "30 minutes daily — focus on character sprites.", "date": "2026-02-11" }
+        { "title": "Learn Unity 2D basics", "note": "Finish a small platformer prototype.", "date": "2026-01-04", "status": "doing" },
+        { "title": "Pixel art practice", "note": "30 minutes daily — focus on character sprites.", "date": "2026-02-11", "status": "todo" }
       ]
     },
     {
@@ -21,7 +21,7 @@
       "color": "#d4543a",
       "description": "Streaming goals: schedule, gear, audience growth, content ideas.",
       "entries": [
-        { "title": "Set weekly stream schedule", "note": "3 streams per week, 2 hours each.", "date": "2026-01-15" }
+        { "title": "Set weekly stream schedule", "note": "3 streams per week, 2 hours each.", "date": "2026-01-15", "status": "done" }
       ]
     },
     {
@@ -31,7 +31,7 @@
       "color": "#d4543a",
       "description": "Skills for AI tools, online work, freelancing, automation.",
       "entries": [
-        { "title": "Master prompt engineering", "note": "Study patterns: role, context, examples, constraints.", "date": "2026-02-02" }
+        { "title": "Master prompt engineering", "note": "Study patterns: role, context, examples, constraints.", "date": "2026-02-02", "status": "doing" }
       ]
     },
     {
@@ -41,7 +41,7 @@
       "color": "#d4543a",
       "description": "Web and creative projects — portfolio, landing pages, design work.",
       "entries": [
-        { "title": "Personal portfolio v1", "note": "Single-page site with projects and contact.", "date": "2026-03-05" }
+        { "title": "Personal portfolio v1", "note": "Single-page site with projects and contact.", "date": "2026-03-05", "status": "todo" }
       ]
     },
     {
@@ -51,7 +51,7 @@
       "color": "#d4543a",
       "description": "Business and product ideas worth exploring or validating.",
       "entries": [
-        { "title": "Digital product shop", "note": "Sell templates, brushes, or game assets.", "date": "2026-03-22" }
+        { "title": "Digital product shop", "note": "Sell templates, brushes, or game assets.", "date": "2026-03-22", "status": "todo" }
       ]
     },
     {
@@ -61,7 +61,7 @@
       "color": "#d4543a",
       "description": "Habits, mindset, health, and learning notes.",
       "entries": [
-        { "title": "Daily reading habit", "note": "20 pages per day, any topic that interests me.", "date": "2026-01-01" }
+        { "title": "Daily reading habit", "note": "20 pages per day, any topic that interests me.", "date": "2026-01-01", "status": "done" }
       ]
     },
     {
@@ -71,7 +71,7 @@
       "color": "#d4543a",
       "description": "Longer-term plans, dreams, and milestone updates.",
       "entries": [
-        { "title": "Move toward full-time creator", "note": "Save runway, build audience, ship products.", "date": "2026-04-01" }
+        { "title": "Move toward full-time creator", "note": "Save runway, build audience, ship products.", "date": "2026-04-01", "status": "todo" }
       ]
     }
   ]
