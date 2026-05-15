@@ -56,3 +56,8 @@ For full auto-sync later, connect:
 ## Privacy Note
 
 Only store information you actually want saved. This project is meant to be editable and personal.
+
+
+## Contributor Onboarding
+
+Start with `NEWCOMER_GUIDE.md` for a quick architecture walkthrough and learning path.
