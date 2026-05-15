@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REAPER: CHECKPOINT TWELVE — Tactical FPS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            padding: 120px 40px;
+            text-align: center;
+            border-bottom: 3px solid #d4a574;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23ffffff" width="1" height="1"/></svg>');
+            opacity: 0.02;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: #d4a574;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 40px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #d4a574;
+            color: #1a1a2e;
+            padding: 16px 48px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #e0b896;
+            transform: translate(0, -2px);
+            box-shadow: 0 8px 24px rgba(212, 165, 116, 0.4);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 50px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        section h3 {
+            font-size: 1.5rem;
+            color: #d4a574;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: #c0c0c0;
+        }
+
+        .character-card {
+            background: #1a1a2e;
+            padding: 30px;
+            border-left: 4px solid #d4a574;
+            margin-bottom: 25px;
+        }
+
+        .character-card h4 {
+            color: #d4a574;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .character-card p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Gameplay Pillars */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .pillar {
+            background: #1a1a2e;
+            padding: 40px 30px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+
+        .pillar:hover {
+            border-color: #d4a574;
+            transform: translate(0, -5px);
+            box-shadow: 0 8px 24px rgba(212, 165, 116, 0.2);
+        }
+
+        .pillar h4 {
+            color: #d4a574;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pillar p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        /* Campaign Section */
+        .campaign-structure {
+            background: #1a1a2e;
+            padding: 40px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .act {
+            margin-bottom: 40px;
+        }
+
+        .act h4 {
+            color: #d4a574;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .mission {
+            background: #0f3460;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-left: 3px solid #d4a574;
+            color: #b0b0b0;
+        }
+
+        /* Themes Section */
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .theme-item {
+            background: #1a1a2e;
+            padding: 25px;
+            border: 1px solid #2a2a2a;
+            text-align: center;
+            color: #d4a574;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 40px;
+            text-align: center;
+            color: #6a6a6a;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        footer p {
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            section {
+                padding: 50px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>REAPER</h1>
+            <p style="margin-bottom: 0; color: #d4a574; font-size: 1.2rem;">CHECKPOINT TWELVE</p>
+            <div class="subtitle">The cost of war. The weight of command.</div>
+            <p>A tactical FPS where every decision carries moral weight. Lead your squad through Iraq's most dangerous operations. Protect lives. Command with honor. Survive the chaos.</p>
+            <button class="cta-button">Coming Soon</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section>
+        <h2>The Story</h2>
+        <div class="about-grid">
+            <div class="about-content">
+                <h3>Setting</h3>
+                <p><strong>Iraq, 2004–2007.</strong> A grounded war atmosphere where urban operations and rural missions blur the line between combat and consequence. This is where soldiers learn that war isn't black and white.</p>
+
+                <h3>The Defining Moment</h3>
+                <p><strong>Checkpoint Twelve.</strong> A civilian family killed by mistake. Elias Haddad arrives too late. That moment shatters his simple view of warfare and becomes the foundation of every decision he makes afterward.</p>
+            </div>
+
+            <div>
+                <div class="character-card">
+                    <h4>Elias "Reaper" Haddad</h4>
+                    <p>Arabic-American recon team leader. Calm, observant, disciplined. Haunted by guilt. Driven to protect lives, not chase glory. His moral compass guides his squad through impossible choices.</p>
+                </div>
+
+                <div class="character-card">
+                    <h4>Marcus Kane</h4>
+                    <p>Second in command. Aggressive, force-driven. Challenges Elias's caution at every turn. Their conflict shapes the moral backbone of the campaign.</p>
+                </div>
+
+                <div class="character-card">
+                    <h4>Daniel Ruiz</h4>
+                    <p>Younger squad member. Optimistic and inexperienced. Gives Elias a mentor and father-figure role—a reason to get the team home alive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Themes Section -->
+    <section>
+        <h2>Core Themes</h2>
+        <div class="themes-grid">
+            <div class="theme-item">Moral Ambiguity</div>
+            <div class="theme-item">Cost of War</div>
+            <div class="theme-item">Civilian Protection</div>
+            <div class="theme-item">Leadership Under Pressure</div>
+            <div class="theme-item">Staying Human in Chaos</div>
+        </div>
+    </section>
+
+    <!-- Gameplay Section -->
+    <section>
+        <h2>Gameplay Pillars</h2>
+        <div class="pillars-grid">
+            <div class="pillar">
+                <h4>Squad Tactics</h4>
+                <p>Command your team with precision. Stack up, breach, hold positions, cover sectors. Every order matters.</p>
+            </div>
+            <div class="pillar">
+                <h4>Stealth First</h4>
+                <p>Detect enemy patrols, use darkness, coordinate sync takedowns. Avoid unnecessary firefights.</p>
+            </div>
+            <div class="pillar">
+                <h4>Intelligent Enemies</h4>
+                <p>Enemy AI adapts—from unaware to suspicious to searching to alerted. They hunt as a team, just like you.</p>
+            </div>
+            <div class="pillar">
+                <h4>Realistic Combat</h4>
+                <p>Weapon recoil, sway, suppression, injury pressure, ballistic danger. Every bullet counts.</p>
+            </div>
+            <div class="pillar">
+                <h4>Moral Stakes</h4>
+                <p>Protect civilians. Minimize collateral damage. Make hard calls that define your character.</p>
+            </div>
+            <div class="pillar">
+                <h4>Squad Leadership</h4>
+                <p>Keep your team alive. Mentor younger soldiers. Make decisions that will haunt you.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaign Section -->
+    <section>
+        <h2>Campaign: Six Missions</h2>
+        <div class="campaign-structure">
+            <div class="act">
+                <h4>ACT I — ARRIVAL</h4>
+                <div class="mission">Mission 1: Dust Line</div>
+                <div class="mission">Mission 2: Concrete Maze</div>
+            </div>
+
+            <div class="act">
+                <h4>ACT II — SHADOW OPERATIONS</h4>
+                <div class="mission">Mission 3: Silent Watch</div>
+                <div class="mission">Mission 4: Blackout</div>
+            </div>
+
+            <div class="act">
+                <h4>ACT III — COLLAPSE</h4>
+                <div class="mission">Mission 5: Burning Streets</div>
+                <div class="mission">Mission 6: Last Signal</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signature Mission -->
+    <section>
+        <h2>Operation Blackout</h2>
+        <p>2:13 AM. Hostage rescue deep in enemy territory. Your squad must infiltrate undetected, make critical breach decisions, extract alive. One wrong move. One false order. And the hostage is gone.</p>
+        <div class="campaign-structure" style="margin-top: 30px;">
+            <h4 style="color: #d4a574; margin-bottom: 20px;">Mission Parameters</h4>
+            <div class="mission">Stealth-first infiltration under cover of darkness</div>
+            <div class="mission">Breach Choice: Silent or Explosive—each changes the mission outcome</div>
+            <div class="mission">Hostage recovery: Get them out alive</div>
+            <div class="mission">Extraction under pressure: Enemy reinforcements inbound</div>
+            <div class="mission" style="border-left-color: #ff4444;">Failure condition: Hostage dies — mission over</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>REAPER: CHECKPOINT TWELVE</strong></p>
+        <p>A tactical FPS about the cost of command and the weight of conscience.</p>
+        <p style="margin-top: 30px; color: #4a4a4a; font-size: 0.9rem;">© 2026 • Coming Soon</p>
+    </footer>
+</body>
+</html>
