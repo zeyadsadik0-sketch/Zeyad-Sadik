@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REAPER: CHECKPOINT TWELVE — Official Trailer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --sand: #d4a574;
+            --blood: #8b1a1a;
+            --steel: #2a3441;
+            --bg: #0a0a0a;
+        }
+
+        html, body {
+            background: var(--bg);
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Letterbox bars */
+        .letterbox-top, .letterbox-bottom {
+            position: fixed;
+            left: 0; right: 0;
+            height: 80px;
+            background: #000;
+            z-index: 9999;
+            transition: height 1s ease;
+        }
+        .letterbox-top { top: 0; }
+        .letterbox-bottom { bottom: 0; }
+
+        /* Trailer container */
+        .trailer {
+            position: relative;
+            width: 100vw;
+        }
+
+        /* Scenes */
+        .scene {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 100px 40px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+        }
+        .scene.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scene 1: Cold open */
+        .scene-1 {
+            background: #000;
+            text-align: center;
+        }
+        .timestamp {
+            color: var(--sand);
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            opacity: 0;
+            animation: fadeIn 2s ease 0.5s forwards;
+        }
+        .location {
+            color: #888;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease 1.5s forwards;
+        }
+        .opening-quote {
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            font-style: italic;
+            max-width: 700px;
+            margin: 60px auto 0;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeIn 3s ease 2.5s forwards;
+        }
+        .opening-quote .attribution {
+            display: block;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--sand);
+            font-style: normal;
+            letter-spacing: 0.2em;
+        }
+
+        /* Scene 2: Setting reveal */
+        .scene-2 {
+            background: linear-gradient(180deg, #1a1612 0%, #0a0a0a 100%);
+            text-align: center;
+        }
+        .setting-title {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--sand);
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 40px rgba(212, 165, 116, 0.3);
+        }
+        .setting-year {
+            font-size: 2rem;
+            color: #888;
+            margin-top: 20px;
+            letter-spacing: 0.3em;
+        }
+        .setting-subtitle {
+            margin-top: 60px;
+            font-size: 1.1rem;
+            color: #aaa;
+            letter-spacing: 0.15em;
+            max-width: 600px;
+        }
+
+        /* Scene 3: Checkpoint Twelve */
+        .scene-3 {
+            background: radial-gradient(ellipse at center, #2a1010 0%, #0a0a0a 70%);
+            text-align: center;
+        }
+        .incident-label {
+            color: var(--blood);
+            font-size: 0.9rem;
+            letter-spacing: 0.4em;
+            margin-bottom: 30px;
+        }
+        .incident-name {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.15em;
+            text-shadow: 0 0 30px rgba(139, 26, 26, 0.5);
+        }
+        .incident-detail {
+            margin-top: 60px;
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 600px;
+            line-height: 2;
+        }
+        .incident-detail span {
+            display: block;
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.8s ease;
+        }
+        .scene-3.active .incident-detail span:nth-child(1) { transition-delay: 0.5s; opacity: 1; transform: translateX(0); }
+        .scene-3.active .incident-detail span:nth-child(2) { transition-delay: 1.2s; opacity: 1; transform: translateX(0); }
+        .scene-3.active .incident-detail span:nth-child(3) { transition-delay: 1.9s; opacity: 1; transform: translateX(0); }
+        .scene-3.active .incident-detail span:nth-child(4) { transition-delay: 2.6s; opacity: 1; transform: translateX(0); color: var(--blood); font-weight: bold; }
+
+        /* Scene 4: Character intro */
+        .scene-4 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+        }
+        .character-intro {
+            max-width: 900px;
+            text-align: left;
+        }
+        .character-label {
+            color: var(--sand);
+            font-size: 0.9rem;
+            letter-spacing: 0.4em;
+            margin-bottom: 20px;
+        }
+        .character-name {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .character-callsign {
+            font-size: 2rem;
+            color: var(--sand);
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+        .character-traits {
+            list-style: none;
+            border-left: 3px solid var(--sand);
+            padding-left: 30px;
+        }
+        .character-traits li {
+            font-size: 1.1rem;
+            color: #ccc;
+            padding: 12px 0;
+            letter-spacing: 0.05em;
+        }
+        .character-traits li::before {
+            content: '— ';
+            color: var(--sand);
+        }
+
+        /* Scene 5: Conflict */
+        .scene-5 {
+            background: #0a0a0a;
+            text-align: center;
+        }
+        .conflict-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .conflict-side {
+            padding: 40px;
+            border: 1px solid #2a2a2a;
+            background: rgba(255,255,255,0.02);
+        }
+        .conflict-side h3 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+        }
+        .conflict-side .role {
+            font-size: 0.85rem;
+            color: var(--sand);
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+        }
+        .conflict-side p {
+            color: #aaa;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .conflict-vs {
+            font-size: 2rem;
+            color: var(--blood);
+            font-weight: 900;
+            letter-spacing: 0.2em;
+        }
+
+        /* Scene 6: Gameplay */
+        .scene-6 {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1612 50%, #0a0a0a 100%);
+            text-align: center;
+        }
+        .gameplay-headline {
+            font-size: 3rem;
+            color: #fff;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            margin-bottom: 80px;
+        }
+        .gameplay-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .pillar-card {
+            background: rgba(212, 165, 116, 0.05);
+            border: 1px solid var(--sand);
+            padding: 30px 20px;
+            transition: all 0.4s ease;
+        }
+        .pillar-card:hover {
+            background: rgba(212, 165, 116, 0.15);
+            transform: scale(1.05);
+        }
+        .pillar-card h4 {
+            color: var(--sand);
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+        }
+        .pillar-card p {
+            color: #aaa;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Scene 7: Operation Blackout */
+        .scene-7 {
+            background: radial-gradient(ellipse at center, #0a1a2e 0%, #000 80%);
+            text-align: center;
+        }
+        .blackout-time {
+            font-size: 6rem;
+            color: var(--sand);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 50px rgba(212, 165, 116, 0.4);
+            font-family: 'Courier New', monospace;
+        }
+        .blackout-label {
+            font-size: 1rem;
+            color: #888;
+            letter-spacing: 0.3em;
+            margin-top: 20px;
+        }
+        .blackout-title {
+            font-size: 3rem;
+            color: #fff;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            margin-top: 50px;
+        }
+        .blackout-objective {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: var(--sand);
+            font-style: italic;
+            letter-spacing: 0.1em;
+        }
+
+        /* Scene 8: Final title */
+        .scene-8 {
+            background: #000;
+            text-align: center;
+        }
+        .final-tagline {
+            font-size: 1rem;
+            color: #888;
+            letter-spacing: 0.4em;
+            margin-bottom: 60px;
+        }
+        .final-title {
+            font-size: 7rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.15em;
+            line-height: 1;
+            text-shadow:
+                0 0 20px rgba(212, 165, 116, 0.3),
+                0 0 40px rgba(212, 165, 116, 0.1);
+        }
+        .final-subtitle {
+            font-size: 1.8rem;
+            color: var(--sand);
+            margin-top: 30px;
+            letter-spacing: 0.3em;
+        }
+        .final-coming {
+            margin-top: 80px;
+            font-size: 1rem;
+            color: #666;
+            letter-spacing: 0.5em;
+        }
+        .final-rating {
+            margin-top: 40px;
+            padding: 8px 20px;
+            display: inline-block;
+            border: 2px solid #555;
+            color: #aaa;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.4; }
+        }
+
+        .flicker { animation: flicker 3s infinite; }
+        .pulse { animation: pulse 2s infinite; }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--sand);
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            opacity: 0;
+            animation: fadeIn 1s ease 4s forwards, pulse 2s infinite 5s;
+            z-index: 100;
+        }
+        .scroll-hint.hidden { display: none; }
+
+        /* Audio control */
+        .audio-toggle {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            color: var(--sand);
+            border: 1px solid var(--sand);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 0.1em;
+            font-size: 0.75rem;
+            z-index: 1000;
+        }
+        .audio-toggle:hover { background: var(--sand); color: #000; }
+
+        /* Replay */
+        .replay-btn {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 16px 40px;
+            background: transparent;
+            color: var(--sand);
+            border: 2px solid var(--sand);
+            font-family: inherit;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .replay-btn:hover {
+            background: var(--sand);
+            color: #000;
+        }
+
+        /* Vignette overlay */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            box-shadow: inset 0 0 200px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        /* Static noise effect */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 99;
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.1),
+                    rgba(255,255,255,0.1) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+        }
+
+        @media (max-width: 768px) {
+            .setting-title, .final-title { font-size: 3rem; }
+            .character-name, .incident-name { font-size: 2.5rem; }
+            .blackout-time { font-size: 4rem; }
+            .conflict-grid { grid-template-columns: 1fr; }
+            .conflict-vs { padding: 20px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="letterbox-top"></div>
+<div class="letterbox-bottom"></div>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<button class="audio-toggle" id="audioToggle">SOUND: OFF</button>
+<div class="scroll-hint" id="scrollHint">SCROLL TO CONTINUE ▾</div>
+
+<div class="trailer">
+
+    <!-- SCENE 1: Cold Open -->
+    <section class="scene scene-1" data-scene="1">
+        <div>
+            <div class="timestamp">02:13 AM</div>
+            <div class="location">SOMEWHERE OUTSIDE FALLUJAH</div>
+            <div class="opening-quote">
+                "You don't win wars like this.<br>
+                You survive them.<br>
+                And you carry them home."
+                <span class="attribution">— Elias Haddad</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 2: Setting -->
+    <section class="scene scene-2" data-scene="2">
+        <div>
+            <div class="setting-title flicker">IRAQ</div>
+            <div class="setting-year">2004 — 2007</div>
+            <div class="setting-subtitle">A war without easy answers. A line that won't stay drawn.</div>
+        </div>
+    </section>
+
+    <!-- SCENE 3: Incident -->
+    <section class="scene scene-3" data-scene="3">
+        <div>
+            <div class="incident-label">CASE FILE • CLASSIFIED</div>
+            <div class="incident-name">CHECKPOINT TWELVE</div>
+            <div class="incident-detail">
+                <span>A vehicle approached at speed.</span>
+                <span>Orders were given. Shots were fired.</span>
+                <span>The vehicle stopped. The doors opened.</span>
+                <span>A family. A mistake. Four lives.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 4: Character -->
+    <section class="scene scene-4" data-scene="4">
+        <div class="character-intro">
+            <div class="character-label">PROTAGONIST</div>
+            <div class="character-name">ELIAS HADDAD</div>
+            <div class="character-callsign">CALLSIGN: REAPER</div>
+            <ul class="character-traits">
+                <li>Recon Team Leader</li>
+                <li>Arabic-American</li>
+                <li>Calm. Observant. Disciplined.</li>
+                <li>Haunted by what cannot be undone</li>
+                <li>Sworn to protect — even when it costs him everything</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- SCENE 5: Conflict -->
+    <section class="scene scene-5" data-scene="5">
+        <div>
+            <h2 style="font-size: 1rem; color: var(--sand); letter-spacing: 0.4em; margin-bottom: 60px;">THE WEIGHT OF COMMAND</h2>
+            <div class="conflict-grid">
+                <div class="conflict-side">
+                    <div class="role">SECOND IN COMMAND</div>
+                    <h3>MARCUS KANE</h3>
+                    <p>"Hesitation kills, Elias. Every second you wait, our boys die. Pull the damn trigger."</p>
+                </div>
+                <div class="conflict-vs">VS</div>
+                <div class="conflict-side">
+                    <div class="role">YOUNGER SQUAD MEMBER</div>
+                    <h3>DANIEL RUIZ</h3>
+                    <p>"You said we're the good guys, right? That hasn't changed. Has it?"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 6: Gameplay -->
+    <section class="scene scene-6" data-scene="6">
+        <div>
+            <div class="gameplay-headline">EVERY ORDER MATTERS</div>
+            <div class="gameplay-pillars">
+                <div class="pillar-card">
+                    <h4>SQUAD COMMAND</h4>
+                    <p>Stack. Breach. Hold. Cover.</p>
+                </div>
+                <div class="pillar-card">
+                    <h4>STEALTH</h4>
+                    <p>Sound. Sight. Patrols. Patience.</p>
+                </div>
+                <div class="pillar-card">
+                    <h4>REALISM</h4>
+                    <p>Recoil. Sway. Suppression. Death.</p>
+                </div>
+                <div class="pillar-card">
+                    <h4>AI AWARENESS</h4>
+                    <p>Unaware → Searching → Alerted</p>
+                </div>
+                <div class="pillar-card">
+                    <h4>CIVILIAN RISK</h4>
+                    <p>Every shot has a cost.</p>
+                </div>
+                <div class="pillar-card">
+                    <h4>MORAL CHOICES</h4>
+                    <p>There are no clean victories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 7: Operation Blackout -->
+    <section class="scene scene-7" data-scene="7">
+        <div>
+            <div class="blackout-time pulse">02:13</div>
+            <div class="blackout-label">MISSION CLOCK</div>
+            <div class="blackout-title">OPERATION BLACKOUT</div>
+            <div class="blackout-objective">One hostage. Two breach options. No second chances.</div>
+        </div>
+    </section>
+
+    <!-- SCENE 8: Final Title -->
+    <section class="scene scene-8" data-scene="8">
+        <div>
+            <div class="final-tagline">FROM THE DESERT.<br>TO THE DARK.<br>TO YOURSELF.</div>
+            <div class="final-title">REAPER</div>
+            <div class="final-subtitle">CHECKPOINT TWELVE</div>
+            <div class="final-coming">COMING SOON</div>
+            <div class="final-rating">M FOR MATURE • 17+</div>
+            <br>
+            <button class="replay-btn" onclick="replayTrailer()">▶ REPLAY TRAILER</button>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // Reveal scenes on scroll
+    const scenes = document.querySelectorAll('.scene');
+    const scrollHint = document.getElementById('scrollHint');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                if (entry.target.dataset.scene === '2') {
+                    scrollHint.classList.add('hidden');
+                }
+            }
+        });
+    }, { threshold: 0.3 });
+
+    scenes.forEach(scene => observer.observe(scene));
+
+    // Auto-activate first scene
+    setTimeout(() => scenes[0].classList.add('active'), 200);
+
+    // Replay
+    function replayTrailer() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scenes.forEach(s => s.classList.remove('active'));
+        setTimeout(() => scenes[0].classList.add('active'), 1000);
+    }
+
+    // Simulated audio toggle (placeholder for actual audio implementation)
+    let audioOn = false;
+    const audioBtn = document.getElementById('audioToggle');
+    audioBtn.addEventListener('click', () => {
+        audioOn = !audioOn;
+        audioBtn.textContent = `SOUND: ${audioOn ? 'ON' : 'OFF'}`;
+    });
+
+    // Smooth scrolling between scenes with arrow keys
+    let currentScene = 0;
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault();
+            currentScene = Math.min(currentScene + 1, scenes.length - 1);
+            scenes[currentScene].scrollIntoView({ behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            currentScene = Math.max(currentScene - 1, 0);
+            scenes[currentScene].scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+</script>
+
+</body>
+</html>

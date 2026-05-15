@@ -246,6 +246,160 @@
             margin-bottom: 15px;
         }
 
+        /* Video Section */
+        .video-section {
+            background: #0f3460;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .video-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .video-content h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .video-subtitle {
+            text-align: center;
+            color: #d4a574;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .trailer-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid #d4a574;
+            box-shadow: 0 0 40px rgba(212, 165, 116, 0.2), inset 0 0 40px rgba(212, 165, 116, 0.05);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .trailer-container iframe {
+            display: block;
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .video-description {
+            color: #a0a0a0;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .video-description strong {
+            color: #d4a574;
+        }
+
+        /* Trailer Scenes Grid */
+        .scenes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scene-card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a2a;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scene-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4a574 0%, #d4a574 50%, transparent 100%);
+        }
+
+        .scene-card:hover {
+            border-color: #d4a574;
+            transform: translate(0, -3px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.15);
+        }
+
+        .scene-number {
+            display: inline-block;
+            background: #0f3460;
+            color: #d4a574;
+            padding: 4px 12px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .scene-card h4 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .scene-card p {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .scene-tag {
+            display: inline-block;
+            background: rgba(212, 165, 116, 0.1);
+            color: #d4a574;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .scenes-subtitle {
+            text-align: center;
+            color: #8a8a8a;
+            font-size: 0.95rem;
+            margin: 40px 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -268,6 +422,30 @@
             section {
                 padding: 50px 20px;
             }
+
+            .trailer-container iframe {
+                height: 400px;
+            }
+
+            .video-section {
+                padding: 40px 20px !important;
+            }
+
+            .video-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .scenes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scene-card {
+                padding: 20px;
+            }
+
+            .scene-card h4 {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -280,6 +458,98 @@
             <div class="subtitle">The cost of war. The weight of command.</div>
             <p>A tactical FPS where every decision carries moral weight. Lead your squad through Iraq's most dangerous operations. Protect lives. Command with honor. Survive the chaos.</p>
             <button class="cta-button">Coming Soon</button>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" style="border-bottom: none; padding-bottom: 80px;">
+        <div class="video-content">
+            <h2>Watch The Trailer</h2>
+            <p class="video-subtitle">Experience the world of REAPER: CHECKPOINT TWELVE</p>
+
+            <div class="trailer-container">
+                <iframe src="game-trailer.html" title="REAPER: Checkpoint Twelve — Cinematic Trailer"></iframe>
+            </div>
+
+            <p class="video-description">
+                <strong>8 cinematic scenes</strong> revealing the story of Elias Haddad, the defining moment that changed everything, and the gameplay systems that define tactical warfare. <strong>Scroll to watch</strong> or use <strong>arrow keys to navigate</strong>.
+            </p>
+
+            <p class="scenes-subtitle">All Eight Scenes</p>
+
+            <div class="scenes-grid">
+                <div class="scene-card">
+                    <span class="scene-number">Scene 1</span>
+                    <h4>Cold Open</h4>
+                    <p><strong>02:13 AM</strong> • Somewhere outside Fallujah</p>
+                    <p><em>"You don't win wars like this. You survive them. And you carry them home."</em></p>
+                    <span class="scene-tag">Opening</span>
+                    <span class="scene-tag">Timestamp</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 2</span>
+                    <h4>Iraq Setting</h4>
+                    <p><strong>2004 — 2007</strong></p>
+                    <p>A war without easy answers. A line that won't stay drawn.</p>
+                    <span class="scene-tag">Context</span>
+                    <span class="scene-tag">World</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 3</span>
+                    <h4>Checkpoint Twelve</h4>
+                    <p>A vehicle approached at speed. Orders were given. Shots were fired. The vehicle stopped. The doors opened.</p>
+                    <p><strong>A family. A mistake. Four lives.</strong></p>
+                    <span class="scene-tag">Incident</span>
+                    <span class="scene-tag">Origin</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 4</span>
+                    <h4>Elias Haddad</h4>
+                    <p><strong>CALLSIGN: REAPER</strong></p>
+                    <p>Recon Team Leader • Arabic-American • Calm. Observant. Disciplined. Haunted by what cannot be undone. Sworn to protect—even when it costs everything.</p>
+                    <span class="scene-tag">Character</span>
+                    <span class="scene-tag">Leader</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 5</span>
+                    <h4>The Weight of Command</h4>
+                    <p><strong>Marcus Kane:</strong> "Hesitation kills, Elias. Pull the damn trigger."</p>
+                    <p><strong>Daniel Ruiz:</strong> "You said we're the good guys. That hasn't changed, has it?"</p>
+                    <span class="scene-tag">Conflict</span>
+                    <span class="scene-tag">Philosophy</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 6</span>
+                    <h4>Gameplay Pillars</h4>
+                    <p><strong>Squad Command</strong> • <strong>Stealth</strong> • <strong>Realism</strong> • <strong>AI Awareness</strong> • <strong>Civilian Risk</strong> • <strong>Moral Choices</strong></p>
+                    <p>Every order matters.</p>
+                    <span class="scene-tag">Systems</span>
+                    <span class="scene-tag">Mechanics</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 7</span>
+                    <h4>Operation Blackout</h4>
+                    <p><strong>02:13</strong> • MISSION CLOCK</p>
+                    <p>One hostage. Two breach options. No second chances.</p>
+                    <span class="scene-tag">Signature</span>
+                    <span class="scene-tag">Choice</span>
+                </div>
+
+                <div class="scene-card">
+                    <span class="scene-number">Scene 8</span>
+                    <h4>From Desert to Dark</h4>
+                    <p><strong>REAPER</strong><br><strong>CHECKPOINT TWELVE</strong></p>
+                    <p>Coming Soon • M for Mature • 17+</p>
+                    <span class="scene-tag">Title</span>
+                    <span class="scene-tag">Call</span>
+                </div>
+            </div>
         </div>
     </section>
 
