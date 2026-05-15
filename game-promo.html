@@ -246,6 +246,76 @@
             margin-bottom: 15px;
         }
 
+        /* Video Section */
+        .video-section {
+            background: #0f3460;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .video-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .video-content h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .video-subtitle {
+            text-align: center;
+            color: #d4a574;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .trailer-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid #d4a574;
+            box-shadow: 0 0 40px rgba(212, 165, 116, 0.2), inset 0 0 40px rgba(212, 165, 116, 0.05);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .trailer-container iframe {
+            display: block;
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .video-description {
+            color: #a0a0a0;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .video-description strong {
+            color: #d4a574;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -268,6 +338,18 @@
             section {
                 padding: 50px 20px;
             }
+
+            .trailer-container iframe {
+                height: 400px;
+            }
+
+            .video-section {
+                padding: 40px 20px !important;
+            }
+
+            .video-content h2 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -280,6 +362,22 @@
             <div class="subtitle">The cost of war. The weight of command.</div>
             <p>A tactical FPS where every decision carries moral weight. Lead your squad through Iraq's most dangerous operations. Protect lives. Command with honor. Survive the chaos.</p>
             <button class="cta-button">Coming Soon</button>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" style="border-bottom: none; padding-bottom: 80px;">
+        <div class="video-content">
+            <h2>Watch The Trailer</h2>
+            <p class="video-subtitle">Experience the world of REAPER: CHECKPOINT TWELVE</p>
+
+            <div class="trailer-container">
+                <iframe src="game-trailer.html" title="REAPER: Checkpoint Twelve — Cinematic Trailer"></iframe>
+            </div>
+
+            <p class="video-description">
+                <strong>8 cinematic scenes</strong> revealing the story of Elias Haddad, the defining moment that changed everything, and the gameplay systems that define tactical warfare. <strong>Scroll to watch</strong> or use <strong>arrow keys to navigate</strong>.
+            </p>
         </div>
     </section>
 
