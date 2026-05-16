@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Future Tactical FPS — Cinematic Trailer UI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #030405;
+      color: #f5efe5;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .noise {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      opacity: .08;
+      background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,.4) 0 1px, transparent 1px),
+                        radial-gradient(circle at 70% 60%, rgba(255,255,255,.25) 0 1px, transparent 1px);
+      background-size: 4px 4px, 7px 7px;
+      animation: noiseShift .25s infinite linear;
+    }
+
+    @keyframes noiseShift {
+      from { transform: translate(0,0); }
+      to { transform: translate(2px,-3px); }
+    }
+
+    .hud-scanline {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 31;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,.035), transparent);
+      height: 18vh;
+      animation: scan 4.8s infinite ease-in-out;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(-30vh); opacity: 0; }
+      30% { opacity: .55; }
+      100% { transform: translateY(120vh); opacity: 0; }
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 40px 22px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,.35), rgba(0,0,0,.9)),
+        radial-gradient(circle at 50% 30%, rgba(199,142,67,.23), transparent 38%),
+        url('a_detailed_infographic_character_design_and_campai.png');
+      background-size: cover;
+      background-position: center;
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(to top, #030405 0%, transparent 28%, rgba(0,0,0,.35) 100%);
+    }
+
+    .trailer-card {
+      width: min(1180px, 96vw);
+      border: 1px solid rgba(232, 196, 128, .42);
+      background: rgba(8, 10, 11, .78);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 80px rgba(0,0,0,.75), inset 0 0 50px rgba(221,153,58,.055);
+      padding: 28px;
+      position: relative;
+      animation: bootIn 1.2s ease both;
+    }
+
+    @keyframes bootIn {
+      from { opacity: 0; transform: translateY(28px) scale(.985); filter: blur(10px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      border-bottom: 1px solid rgba(255,255,255,.13);
+      padding-bottom: 16px;
+      margin-bottom: 26px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 12px;
+      color: #d8b374;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .status::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #ff9d3d;
+      box-shadow: 0 0 16px #ff9d3d;
+      animation: pulse 1.4s infinite;
+    }
+
+    @keyframes pulse {
+      50% { opacity: .35; transform: scale(.78); }
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 8vw, 104px);
+      line-height: .9;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      text-shadow: 0 0 30px rgba(255,145,54,.18);
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      max-width: 720px;
+      color: #d7d0c4;
+      font-size: clamp(16px, 2vw, 22px);
+      line-height: 1.45;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .panel {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.015));
+      position: relative;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: rise .9s ease forwards;
+    }
+
+    .panel:nth-child(1) { animation-delay: .35s; }
+    .panel:nth-child(2) { animation-delay: .5s; }
+    .panel:nth-child(3) { animation-delay: .65s; }
+    .panel:nth-child(4) { animation-delay: .8s; }
+
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.12) 48%, transparent 58%);
+      transform: translateX(-130%);
+      animation: glint 5s infinite;
+    }
+
+    @keyframes glint {
+      0%, 60% { transform: translateX(-130%); }
+      82%, 100% { transform: translateX(130%); }
+    }
+
+    .panel b {
+      display: block;
+      color: #e8c480;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .panel span {
+      color: #f0ede8;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .timeline {
+      padding: 70px 22px;
+      width: min(1180px, 96vw);
+      margin: auto;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+      padding-bottom: 12px;
+      margin-bottom: 22px;
+      color: #e8c480;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+    }
+
+    .sequence {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .shot {
+      border: 1px solid rgba(255,255,255,.14);
+      background: #0c0d0e;
+      padding: 14px;
+      min-height: 210px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shot::after {
+      content: attr(data-time);
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      border: 1px solid rgba(255,255,255,.3);
+      background: rgba(0,0,0,.8);
+      color: white;
+      padding: 4px 7px;
+      font-size: 12px;
+    }
+
+    .shot h3 {
+      margin: 70px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #fff;
+    }
+
+    .shot p {
+      color: #cfc8bc;
+      line-height: 1.45;
+    }
+
+    .progress {
+      height: 4px;
+      background: rgba(255,255,255,.1);
+      margin-top: 32px;
+      overflow: hidden;
+    }
+
+    .progress div {
+      width: 42%;
+      height: 100%;
+      background: #d48a3a;
+      box-shadow: 0 0 22px #d48a3a;
+      animation: trailerProgress 7s infinite linear;
+    }
+
+    @keyframes trailerProgress {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(250%); }
+    }
+
+    .cta {
+      text-align: center;
+      padding: 56px 22px 80px;
+    }
+
+    .cta button {
+      border: 1px solid rgba(232,196,128,.65);
+      background: rgba(232,196,128,.08);
+      color: #f2d59d;
+      padding: 15px 28px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(232,196,128,.08);
+    }
+
+    .cta button:hover {
+      background: rgba(232,196,128,.18);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .grid, .sequence { grid-template-columns: 1fr; }
+      .trailer-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="hud-scanline"></div>
+
+  <main class="hero">
+    <section class="trailer-card">
+      <div class="topbar">
+        <span class="status">Unreal Engine cinematic systems online</span>
+        <span>Operation Blackout // 02:13 AM</span>
+      </div>
+
+      <h1>Future<br />Tactical FPS</h1>
+      <p class="subtitle">A grounded cinematic war experience built around squad tactics, stealth, civilian risk, and the lives you choose to protect.</p>
+
+      <div class="grid">
+        <div class="panel"><b>Engine Feel</b><span>Unreal-style lighting, dark volumetric atmosphere, tactical camera shake, and cinematic mission pacing.</span></div>
+        <div class="panel"><b>Main Character</b><span>Elias “Reaper” Haddad — recon team leader, haunted by Checkpoint Twelve.</span></div>
+        <div class="panel"><b>Signature Mission</b><span>Operation Blackout: infiltrate, breach, secure the hostage, extract under pressure.</span></div>
+        <div class="panel"><b>Theme</b><span>War is not about victory. It is about the lives you choose to protect.</span></div>
+      </div>
+
+      <div class="progress"><div></div></div>
+    </section>
+  </main>
+
+  <section class="timeline">
+    <div class="section-title">
+      <span>Cinematic trailer sequence</span>
+      <span>Duration: 2:30</span>
+    </div>
+
+    <div class="sequence">
+      <div class="shot" data-time="00:00"><h3>Opening Shot</h3><p>Dusty city skyline. Distant smoke. Low radio chatter. The war begins quietly.</p></div>
+      <div class="shot" data-time="00:16"><h3>Elias Haddad</h3><p>Close-up. Tired eyes. Focused expression. A leader carrying the cost of past mistakes.</p></div>
+      <div class="shot" data-time="00:33"><h3>Checkpoint Twelve</h3><p>A wrong call. A civilian family caught in crossfire. Everything changes.</p></div>
+      <div class="shot" data-time="01:07"><h3>Operation Blackout</h3><p>2:13 AM. Silencers only. One hostage. No room for failure.</p></div>
+      <div class="shot" data-time="01:34"><h3>Breach</h3><p>Silent or explosive. The player chooses the method, but the hostage must survive.</p></div>
+      <div class="shot" data-time="02:10"><h3>Get Out</h3><p>Reinforcements close in. Helicopter lights cut through the dust. Some are survived.</p></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <button onclick="document.body.classList.toggle('cinematic')">Play cinematic UI pulse</button>
+  </section>
+</body>
+</html>
