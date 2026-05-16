@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Future Tactical FPS — Cinematic Trailer UI</title>
+  <title>Tactical FPS — Iraq 2004–2007 — Cinematic Reel</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -47,159 +47,242 @@
       100% { transform: translateY(120vh); opacity: 0; }
     }
 
-    .hero {
-      min-height: 100vh;
+    .reel {
       position: relative;
-      display: grid;
-      place-items: center;
-      padding: 40px 22px;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,.35), rgba(0,0,0,.9)),
-        radial-gradient(circle at 50% 30%, rgba(199,142,67,.23), transparent 38%);
-      background-size: cover;
-      background-position: center;
+      width: 100%;
+      height: 100vh;
+      min-height: 560px;
+      background: #000;
+      overflow: hidden;
       isolation: isolate;
     }
 
-    .hero::after {
-      content: "";
+    .reel-frame {
       position: absolute;
       inset: 0;
-      z-index: -1;
-      background: linear-gradient(to top, #030405 0%, transparent 28%, rgba(0,0,0,.35) 100%);
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      animation: sceneShow var(--dur, 8s) ease forwards;
+      animation-delay: var(--start, 0s);
     }
 
-    .trailer-card {
-      width: min(1180px, 96vw);
-      border: 1px solid rgba(232, 196, 128, .42);
-      background: rgba(8, 10, 11, .78);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 0 80px rgba(0,0,0,.75), inset 0 0 50px rgba(221,153,58,.055);
-      padding: 28px;
-      position: relative;
-      animation: bootIn 1.2s ease both;
+    .reel.paused .reel-frame,
+    .reel.paused .reel-progress div,
+    .reel.paused .reel-ken { animation-play-state: paused; }
+
+    @keyframes sceneShow {
+      0%   { opacity: 0; transform: scale(1.08); filter: blur(8px); }
+      10%  { opacity: 1; transform: scale(1.0); filter: blur(0); }
+      85%  { opacity: 1; transform: scale(0.99); filter: blur(0); }
+      100% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
     }
 
-    @keyframes bootIn {
-      from { opacity: 0; transform: translateY(28px) scale(.985); filter: blur(10px); }
-      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    .reel-ken {
+      position: absolute;
+      inset: -8% -8% -8% -8%;
+      z-index: 0;
+      animation: kenBurns var(--dur, 8s) ease both;
+      animation-delay: var(--start, 0s);
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      border-bottom: 1px solid rgba(255,255,255,.13);
-      padding-bottom: 16px;
-      margin-bottom: 26px;
-      text-transform: uppercase;
-      letter-spacing: .18em;
+    @keyframes kenBurns {
+      from { transform: scale(1.0) translate(0,0); }
+      to   { transform: scale(1.18) translate(2%, -3%); }
+    }
+
+    .reel-meta {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 3;
       font-size: 12px;
-      color: #d8b374;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #e8c480;
     }
 
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
+    .reel-meta .scene-num {
+      display: inline-block;
+      padding: 4px 9px;
+      border: 1px solid rgba(232, 196, 128, .55);
+      margin-right: 10px;
+      background: rgba(0,0,0,.55);
     }
 
-    .status::before {
-      content: "";
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: #ff9d3d;
-      box-shadow: 0 0 16px #ff9d3d;
-      animation: pulse 1.4s infinite;
+    .reel-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 32px;
+      max-width: 900px;
     }
 
-    @keyframes pulse {
-      50% { opacity: .35; transform: scale(.78); }
-    }
-
-    h1 {
+    .reel-content h2 {
       margin: 0;
-      font-size: clamp(42px, 8vw, 104px);
-      line-height: .9;
+      font-size: clamp(34px, 6.4vw, 76px);
+      line-height: .98;
       letter-spacing: .04em;
       text-transform: uppercase;
-      text-shadow: 0 0 30px rgba(255,145,54,.18);
+      text-shadow: 0 4px 32px rgba(0,0,0,.85), 0 0 24px rgba(255,145,54,.16);
     }
 
-    .subtitle {
-      margin: 18px 0 0;
+    .reel-content p {
+      margin: 18px auto 0;
+      color: #e3ddd0;
+      font-size: clamp(15px, 1.85vw, 21px);
+      line-height: 1.5;
       max-width: 720px;
-      color: #d7d0c4;
-      font-size: clamp(16px, 2vw, 22px);
-      line-height: 1.45;
+      text-shadow: 0 2px 14px rgba(0,0,0,.9);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 32px;
-    }
-
-    .panel {
-      min-height: 150px;
-      padding: 18px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.015));
-      position: relative;
-      overflow: hidden;
-      transform: translateY(20px);
-      opacity: 0;
-      animation: rise .9s ease forwards;
-    }
-
-    .panel:nth-child(1) { animation-delay: .35s; }
-    .panel:nth-child(2) { animation-delay: .5s; }
-    .panel:nth-child(3) { animation-delay: .65s; }
-    .panel:nth-child(4) { animation-delay: .8s; }
-
-    @keyframes rise {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .panel::before {
-      content: "";
+    .reel-vo {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.12) 48%, transparent 58%);
-      transform: translateX(-130%);
-      animation: glint 5s infinite;
+      bottom: 86px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-style: italic;
+      color: #fff;
+      background: rgba(0,0,0,.62);
+      padding: 9px 20px;
+      border-left: 2px solid #e8c480;
+      max-width: 720px;
+      font-size: clamp(14px, 1.65vw, 18px);
+      letter-spacing: .02em;
     }
 
-    @keyframes glint {
-      0%, 60% { transform: translateX(-130%); }
-      82%, 100% { transform: translateX(130%); }
+    .reel-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 5;
+      background: rgba(255,255,255,.1);
     }
 
-    .panel b {
-      display: block;
-      color: #e8c480;
-      text-transform: uppercase;
-      letter-spacing: .12em;
+    .reel-progress div {
+      width: 100%;
+      height: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      background: #d48a3a;
+      box-shadow: 0 0 18px #d48a3a;
+      animation: progressFill 160s linear forwards;
+    }
+
+    @keyframes progressFill {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    .reel-clock {
+      position: absolute;
+      bottom: 18px;
+      right: 20px;
+      z-index: 5;
+      font-family: "Courier New", monospace;
       font-size: 12px;
-      margin-bottom: 10px;
+      letter-spacing: .15em;
+      color: #d8b374;
+      background: rgba(0,0,0,.55);
+      padding: 4px 10px;
+      border: 1px solid rgba(216,179,116,.3);
     }
 
-    .panel span {
-      color: #f0ede8;
-      font-size: 15px;
-      line-height: 1.45;
+    .reel-controls {
+      position: absolute;
+      bottom: 18px;
+      left: 20px;
+      z-index: 5;
+      display: flex;
+      gap: 10px;
     }
 
-    .timeline {
-      padding: 70px 22px;
+    .reel-controls button {
+      border: 1px solid rgba(232, 196, 128, .55);
+      background: rgba(0,0,0,.65);
+      color: #f2d59d;
+      padding: 7px 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 11px;
+      font-family: inherit;
+    }
+
+    .reel-controls button:hover {
+      background: rgba(232,196,128,.18);
+    }
+
+    .reel-title-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      animation: titleCardShow 10s ease forwards;
+      animation-delay: 150s;
+    }
+
+    @keyframes titleCardShow {
+      0%   { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+      15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+      85%  { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+    }
+
+    .reel-title-overlay h1 {
+      margin: 0;
+      font-size: clamp(40px, 9vw, 110px);
+      letter-spacing: .08em;
+      color: #fff;
+      text-shadow: 0 0 32px rgba(255,145,54,.45);
+    }
+
+    .reel-title-overlay .tag {
+      margin-top: 14px;
+      color: #e8c480;
+      letter-spacing: .35em;
+      font-size: clamp(12px, 1.4vw, 16px);
+    }
+
+    .reel-title-overlay .release {
+      margin-top: 18px;
+      color: #cfc8bc;
+      letter-spacing: .18em;
+      font-size: 14px;
+    }
+
+    .bg-1  { background: radial-gradient(ellipse at 50% 65%, #c97a3c 0%, #5a2f17 32%, #160a04 78%); }
+    .bg-2  { background: linear-gradient(180deg, #1a1208 0%, #3d2510 50%, #0a0703 100%); }
+    .bg-3  { background: radial-gradient(circle at 50% 45%, #5a3320 0%, #1a0e07 75%); }
+    .bg-4  { background: linear-gradient(135deg, #8b5a2c 0%, #2a180c 70%); }
+    .bg-5  { background: radial-gradient(ellipse at 50% 60%, #c95a2c 0%, #3a1a0a 65%, #0a0301 95%); }
+    .bg-6  { background: radial-gradient(circle at 50% 50%, #2a1a10 0%, #050302 80%); }
+    .bg-7  { background: linear-gradient(180deg, #2a1c12 0%, #5a3a1c 50%, #1a0f08 100%); }
+    .bg-8  { background: radial-gradient(circle at 50% 50%, #2a1a0a 0%, #050200 80%); }
+    .bg-9  { background: linear-gradient(180deg, #0a1218 0%, #0e1a22 50%, #050a0d 100%); }
+    .bg-10 { background: radial-gradient(ellipse at 50% 50%, #1f5a2c 0%, #07180c 80%); }
+    .bg-11 { background: radial-gradient(circle at 50% 50%, #4a2a18 0%, #0a0503 80%); }
+    .bg-12 { background: linear-gradient(180deg, #1a0e07 0%, #3a2010 50%, #0a0503 100%); }
+    .bg-13 { background: radial-gradient(circle at 50% 50%, #ff8a2c 0%, #4a1808 32%, #0a0301 80%); }
+    .bg-14 { background: radial-gradient(ellipse at 50% 60%, #c95a2c 0%, #3a1a0a 60%); }
+    .bg-15 { background: linear-gradient(180deg, #0a0e12 0%, #1a2030 50%, #050810 100%); }
+    .bg-16 { background: linear-gradient(135deg, #3a2812 0%, #1a0f08 70%); }
+    .bg-17 { background: radial-gradient(circle at 50% 50%, #1a1208 0%, #000 80%); }
+
+    .info {
+      padding: 64px 22px 80px;
       width: min(1180px, 96vw);
       margin: auto;
     }
 
-    .section-title {
+    .info-title {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid rgba(255,255,255,.16);
@@ -208,91 +291,42 @@
       color: #e8c480;
       text-transform: uppercase;
       letter-spacing: .16em;
+      font-size: 12px;
     }
 
-    .sequence {
+    .info-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
-    .shot {
+    .info-card {
       border: 1px solid rgba(255,255,255,.14);
-      background: #0c0d0e;
-      padding: 14px;
-      min-height: 210px;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+      padding: 18px;
     }
 
-    .shot::after {
-      content: attr(data-time);
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      border: 1px solid rgba(255,255,255,.3);
-      background: rgba(0,0,0,.8);
-      color: white;
-      padding: 4px 7px;
+    .info-card h4 {
+      margin: 0 0 10px;
+      color: #e8c480;
+      text-transform: uppercase;
+      letter-spacing: .14em;
       font-size: 12px;
     }
 
-    .shot h3 {
-      margin: 70px 0 10px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: #fff;
-    }
-
-    .shot p {
+    .info-card ul {
+      margin: 0;
+      padding-left: 18px;
       color: #cfc8bc;
-      line-height: 1.45;
-    }
-
-    .progress {
-      height: 4px;
-      background: rgba(255,255,255,.1);
-      margin-top: 32px;
-      overflow: hidden;
-    }
-
-    .progress div {
-      width: 42%;
-      height: 100%;
-      background: #d48a3a;
-      box-shadow: 0 0 22px #d48a3a;
-      animation: trailerProgress 7s infinite linear;
-    }
-
-    @keyframes trailerProgress {
-      from { transform: translateX(-100%); }
-      to { transform: translateX(250%); }
-    }
-
-    .cta {
-      text-align: center;
-      padding: 56px 22px 80px;
-    }
-
-    .cta button {
-      border: 1px solid rgba(232,196,128,.65);
-      background: rgba(232,196,128,.08);
-      color: #f2d59d;
-      padding: 15px 28px;
-      text-transform: uppercase;
-      letter-spacing: .18em;
-      cursor: pointer;
-      box-shadow: 0 0 30px rgba(232,196,128,.08);
-    }
-
-    .cta button:hover {
-      background: rgba(232,196,128,.18);
-      transform: translateY(-2px);
+      line-height: 1.5;
+      font-size: 14px;
     }
 
     @media (max-width: 900px) {
-      .grid, .sequence { grid-template-columns: 1fr; }
-      .trailer-card { padding: 20px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .reel-vo { bottom: 96px; padding: 8px 14px; }
+      .reel-controls { left: 14px; bottom: 14px; }
+      .reel-clock { right: 14px; bottom: 14px; }
     }
   </style>
 </head>
@@ -300,45 +334,251 @@
   <div class="noise"></div>
   <div class="hud-scanline"></div>
 
-  <main class="hero">
-    <section class="trailer-card">
-      <div class="topbar">
-        <span class="status">Unreal Engine cinematic systems online</span>
-        <span>Operation Blackout // 02:13 AM</span>
+  <section class="reel" id="reel">
+    <div class="reel-frame" style="--start: 0s; --dur: 8s;">
+      <div class="reel-ken bg-1" style="--start: 0s; --dur: 8s;"></div>
+      <div class="reel-meta"><span class="scene-num">01</span>0:00 — Opening Shot</div>
+      <div class="reel-content">
+        <h2>Not all battles are won.</h2>
+        <p>War-torn Iraq. Dusty streets, smoke rises. Helicopter blades fade in.</p>
       </div>
-
-      <h1>Future<br />Tactical FPS</h1>
-      <p class="subtitle">A grounded cinematic war experience built around squad tactics, stealth, civilian risk, and the lives you choose to protect.</p>
-
-      <div class="grid">
-        <div class="panel"><b>Engine Feel</b><span>Unreal-style lighting, dark volumetric atmosphere, tactical camera shake, and cinematic mission pacing.</span></div>
-        <div class="panel"><b>Main Character</b><span>Elias “Reaper” Haddad — recon team leader, haunted by Checkpoint Twelve.</span></div>
-        <div class="panel"><b>Signature Mission</b><span>Operation Blackout: infiltrate, breach, secure the hostage, extract under pressure.</span></div>
-        <div class="panel"><b>Theme</b><span>War is not about victory. It is about the lives you choose to protect.</span></div>
-      </div>
-
-      <div class="progress"><div></div></div>
-    </section>
-  </main>
-
-  <section class="timeline">
-    <div class="section-title">
-      <span>Cinematic trailer sequence</span>
-      <span>Duration: 2:30</span>
+      <div class="reel-vo">"War is not about victory."</div>
     </div>
 
-    <div class="sequence">
-      <div class="shot" data-time="00:00"><h3>Opening Shot</h3><p>Dusty city skyline. Distant smoke. Low radio chatter. The war begins quietly.</p></div>
-      <div class="shot" data-time="00:16"><h3>Elias Haddad</h3><p>Close-up. Tired eyes. Focused expression. A leader carrying the cost of past mistakes.</p></div>
-      <div class="shot" data-time="00:33"><h3>Checkpoint Twelve</h3><p>A wrong call. A civilian family caught in crossfire. Everything changes.</p></div>
-      <div class="shot" data-time="01:07"><h3>Operation Blackout</h3><p>2:13 AM. Silencers only. One hostage. No room for failure.</p></div>
-      <div class="shot" data-time="01:34"><h3>Breach</h3><p>Silent or explosive. The player chooses the method, but the hostage must survive.</p></div>
-      <div class="shot" data-time="02:10"><h3>Get Out</h3><p>Reinforcements close in. Helicopter lights cut through the dust. Some are survived.</p></div>
+    <div class="reel-frame" style="--start: 8s; --dur: 8s;">
+      <div class="reel-ken bg-2" style="--start: 8s; --dur: 8s;"></div>
+      <div class="reel-meta"><span class="scene-num">02</span>0:08 — Deployment</div>
+      <div class="reel-content">
+        <h2>Boots on the ground.</h2>
+        <p>Helicopter insertion. Squad prepares for mission.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 16s; --dur: 8s;">
+      <div class="reel-ken bg-3" style="--start: 16s; --dur: 8s;"></div>
+      <div class="reel-meta"><span class="scene-num">03</span>0:16 — Main Character</div>
+      <div class="reel-content">
+        <h2>Elias "Reaper" Haddad</h2>
+        <p>Recon Team Leader. Haunted. Focused. Protective.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 24s; --dur: 8s;">
+      <div class="reel-ken bg-4" style="--start: 24s; --dur: 8s;"></div>
+      <div class="reel-meta"><span class="scene-num">04</span>0:24 — Squad Dynamics</div>
+      <div class="reel-content">
+        <h2>Three lives. One squad.</h2>
+        <p>Marcus: aggressive. Daniel: young and optimistic. Elias: calm, calculated.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 32s; --dur: 10s;">
+      <div class="reel-ken bg-5" style="--start: 32s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">05</span>0:32 — Checkpoint Twelve</div>
+      <div class="reel-content">
+        <h2>The wrong call.</h2>
+        <p>Tense moment. A civilian family caught in the crossfire. Everything changes.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 42s; --dur: 8s;">
+      <div class="reel-ken bg-6" style="--start: 42s; --dur: 8s;"></div>
+      <div class="reel-meta"><span class="scene-num">06</span>0:42 — The Aftermath</div>
+      <div class="reel-content">
+        <h2>Protect the lives we still can.</h2>
+        <p>Guilt. Questions. A new purpose is born.</p>
+      </div>
+      <div class="reel-vo">"It's about the lives you choose to protect."</div>
+    </div>
+
+    <div class="reel-frame" style="--start: 50s; --dur: 10s;">
+      <div class="reel-ken bg-7" style="--start: 50s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">07</span>0:50 — Mission Montage</div>
+      <div class="reel-content">
+        <h2>The war is chaos.</h2>
+        <p>Convoys. Ambushes. Building clears. Recon.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 60s; --dur: 8s;">
+      <div class="reel-ken bg-8" style="--start: 60s; --dur: 8s;"></div>
+      <div class="reel-meta"><span class="scene-num">08</span>1:00 — Signature Mission</div>
+      <div class="reel-content">
+        <h2>The mission that defines everything.</h2>
+        <p>Hostage rescue. No room for failure.</p>
+      </div>
+      <div class="reel-vo">"Some missions change you."</div>
+    </div>
+
+    <div class="reel-frame" style="--start: 68s; --dur: 10s;">
+      <div class="reel-ken bg-9" style="--start: 68s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">09</span>1:08 — Infiltration</div>
+      <div class="reel-content">
+        <h2>Silencers only.</h2>
+        <p>Stay unseen. Stay quiet. One mistake — everyone dies.</p>
+      </div>
+      <div class="reel-vo">"Some nights define you."</div>
+    </div>
+
+    <div class="reel-frame" style="--start: 78s; --dur: 10s;">
+      <div class="reel-ken bg-10" style="--start: 78s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">10</span>1:18 — Approaching the Compound</div>
+      <div class="reel-content">
+        <h2>Timing is everything.</h2>
+        <p>Patrols move. Windows. Shadows.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 88s; --dur: 10s;">
+      <div class="reel-ken bg-11" style="--start: 88s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">11</span>1:28 — Breach</div>
+      <div class="reel-content">
+        <h2>Silent — or explosive.</h2>
+        <p>Your choice. The hostage must survive.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 98s; --dur: 10s;">
+      <div class="reel-ken bg-12" style="--start: 98s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">12</span>1:38 — Hostage Recovery</div>
+      <div class="reel-content">
+        <h2>Secure the target.</h2>
+        <p>They must live.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 108s; --dur: 10s;">
+      <div class="reel-ken bg-13" style="--start: 108s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">13</span>1:48 — Alarm Triggered</div>
+      <div class="reel-content">
+        <h2>They know we're here.</h2>
+        <p>Reinforcements incoming. Extract now.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 118s; --dur: 12s;">
+      <div class="reel-ken bg-14" style="--start: 118s; --dur: 12s;"></div>
+      <div class="reel-meta"><span class="scene-num">14</span>1:58 — Extraction</div>
+      <div class="reel-content">
+        <h2>Fight to the vehicle.</h2>
+        <p>This is where survivors are made.</p>
+      </div>
+    </div>
+
+    <div class="reel-frame" style="--start: 130s; --dur: 10s;">
+      <div class="reel-ken bg-15" style="--start: 130s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">15</span>2:10 — Get Out</div>
+      <div class="reel-content">
+        <h2>Leave no one behind.</h2>
+        <p>Helicopter lights cut through the dust.</p>
+      </div>
+      <div class="reel-vo">"Not all battles are won."</div>
+    </div>
+
+    <div class="reel-frame" style="--start: 140s; --dur: 10s;">
+      <div class="reel-ken bg-16" style="--start: 140s; --dur: 10s;"></div>
+      <div class="reel-meta"><span class="scene-num">16</span>2:20 — Closing Shot</div>
+      <div class="reel-content">
+        <h2>The war continues.</h2>
+        <p>But so does the fight to do what's right.</p>
+      </div>
+      <div class="reel-vo">"Some are survived."</div>
+    </div>
+
+    <div class="reel-title-overlay">
+      <h1>Tactical FPS</h1>
+      <div class="tag">Iraq 2004 – 2007</div>
+      <div class="release">Wishlist on Steam</div>
+    </div>
+
+    <div class="reel-progress"><div></div></div>
+    <div class="reel-clock" id="clock">00:00 / 02:40</div>
+    <div class="reel-controls">
+      <button id="toggle">Pause</button>
+      <button id="restart">Restart</button>
     </div>
   </section>
 
-  <section class="cta">
-    <button onclick="document.body.classList.toggle('cinematic')">Play cinematic UI pulse</button>
+  <section class="info">
+    <div class="info-title">
+      <span>Cinematic notes</span>
+      <span>Reel duration: 2:40</span>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>Music &amp; Audio</h4>
+        <ul>
+          <li>Low, tense, realistic military score</li>
+          <li>Distant gunfire, helicopters, radios, wind</li>
+          <li>Moments of silence for emotional impact</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Visual Style</h4>
+        <ul>
+          <li>Gritty, realistic, grounded</li>
+          <li>Dust, smoke, darkness, muzzle flashes</li>
+          <li>Battlefield-like realism</li>
+          <li>Immersive and cinematic</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Theme</h4>
+        <ul>
+          <li>War is not about victory</li>
+          <li>It is about the lives you choose to protect</li>
+          <li>Not all battles are won — some are survived</li>
+        </ul>
+      </div>
+    </div>
   </section>
+
+  <script>
+    (function () {
+      var reel = document.getElementById("reel");
+      var toggle = document.getElementById("toggle");
+      var restart = document.getElementById("restart");
+      var clock = document.getElementById("clock");
+
+      var total = 160;
+      var startedAt = performance.now();
+      var pausedAt = 0;
+      var pausedAccum = 0;
+      var paused = false;
+
+      function fmt(s) {
+        s = Math.max(0, Math.min(total, Math.floor(s)));
+        var m = Math.floor(s / 60);
+        var r = s % 60;
+        return (m < 10 ? "0" : "") + m + ":" + (r < 10 ? "0" : "") + r;
+      }
+
+      function tick() {
+        if (!paused) {
+          var elapsed = (performance.now() - startedAt - pausedAccum) / 1000;
+          clock.textContent = fmt(elapsed) + " / 02:40";
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      toggle.addEventListener("click", function () {
+        paused = !paused;
+        if (paused) {
+          pausedAt = performance.now();
+          reel.classList.add("paused");
+          toggle.textContent = "Play";
+        } else {
+          pausedAccum += performance.now() - pausedAt;
+          reel.classList.remove("paused");
+          toggle.textContent = "Pause";
+        }
+      });
+
+      restart.addEventListener("click", function () {
+        window.location.reload();
+      });
+    })();
+  </script>
 </body>
 </html>
