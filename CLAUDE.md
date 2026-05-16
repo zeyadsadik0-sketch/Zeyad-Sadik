@@ -46,7 +46,8 @@ All app logic lives in the IIFE at the bottom of `index.html`. Key pieces:
 ## Conventions
 
 - **Single-file per page.** Each HTML file in the repo (`index.html` and each standalone `*-trailer.html` / `*-promo.html`) keeps its HTML, CSS, and JS inline in that one file. Do not split a page across separate JS/CSS files and do not add a build step. Adding *new* standalone sibling pages is fine; splitting an existing one is not.
-- **No external runtime dependencies.** No CDN scripts, no web fonts, no required network assets. If a page references a local image (e.g. a background), commit the image to the repo — never leave a broken `url(...)` pointing at a missing file.
+- **No external runtime dependencies for the main brain app.** `index.html` must run with no CDN scripts, no web fonts, and no required network assets. If it references a local image, commit the image to the repo — never leave a broken `url(...)` pointing at a missing file.
+- **Standalone trailer pages may reference remote images** (e.g. CDN-hosted scene thumbnails) — they're allowed to require a network connection to render fully. When doing so: prefer stable/long-lived URLs over temporary ones (generated previews tend to expire), and any *local* image refs must still be committed rather than left broken. Scripts, fonts, and other code dependencies remain forbidden everywhere.
 - **All user-supplied strings** rendered into the DOM must go through `textContent` or `escapeHtml()` — never interpolate untrusted strings into `innerHTML`. The existing entry/title rendering in `index.html` follows this; preserve it.
 - **`DEFAULTS` in `index.html` and `brain-data.json` should stay in sync** on the node `id`, `label`, `icon`, `color`, and `description` fields. When adding or renaming a category, update both. (Applies to the main brain app only — standalone trailer pages don't use this data.)
 - **Date format**: always `YYYY-MM-DD` (validated by `sanitizeEntry`).
